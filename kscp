@@ -1,0 +1,19 @@
+#!/bin/bash
+# wrapper to make a knock and then a scp copy
+
+PORTS="7777:tcp,8888:tcp,9999:tcp"
+LOGIN="";
+SERVER="";
+
+if [ $# -lt 1 ] ; then 
+	echo 'usage: kscp /path/to/file [/path/to/another/file] user@domain:/path/to/new/directory/'
+	exit -1
+fi
+
+LAST=${!#}
+SERVERDIR=${LAST#*\@}
+SERVER=${SERVERDIR%\:*}
+
+#echo "knock -v $SERVER $PORTS && scp $@"
+knock -v $SERVER $PORTS && scp $@
+exit;
